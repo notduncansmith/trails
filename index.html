@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title>New Thing</title>
+</head>
+<body>
+<h1>Path</h1>
+<p></p>
+
+
+<iframe src="" frameborder="0"></iframe>
+
+
+<script src="/jquery.js"></script>
+<script src="/app.js"></script>
+<script>
+var router = new Trails
+  , $title = $('h1')
+  , $body = $('p');
+
+router.route('/', function (path) {
+  $title.text(path.full);
+  $body.text('Hello World!');
+});
+
+router.route('/say/:message', function (path) {
+  $title.text(path.full);
+  $body.text(path.params.message);
+});
+
+router.route('/p/:productSlug', function (path) {
+  $title.text('Slug')
+  $body.text(path.params.productSlug);
+})
+
+
+
+</script>
+</body>
+</html>
