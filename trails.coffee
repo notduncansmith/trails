@@ -49,7 +49,8 @@ class window.Trails
           params.splat.push val
     
     args =
-      full: route.originalPath
+      route: route.originalPath
+      computed: path
       params: params
     
     route.handler(args)

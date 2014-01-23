@@ -60,7 +60,8 @@
         });
       }
       args = {
-        full: route.originalPath,
+        route: route.originalPath,
+        computed: path,
         params: params
       };
       return route.handler(args);
