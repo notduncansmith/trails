@@ -1,9 +1,18 @@
 class window.Trails
   constructor: ->
     self = this
-    window.onhashchange = (e) -> self._handle e.newURL
-    window.onload = -> self._handle window.location
-
+    window.onhashchange = (e) -> 
+      try
+        self._handle e.newURL
+      catch error
+        console.error error.message
+      
+    window.onload = -> 
+      try
+        self._handle window.location
+      catch error
+        console.error error.message
+      
   routes: []
 
   route: (path, handler) ->
@@ -33,8 +42,8 @@ class window.Trails
     path = proxyAnchor.hash.replace '#!', ''
 
     route = this._match path
-    unless route
-      alert '404'
+    unless route.handler
+      throw new Error "ONOEZ!  Could not find a matching route for #{path}"
 
     params = {}
     routeParamValues = route.path.exec(path)

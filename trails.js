@@ -5,10 +5,22 @@
       var self;
       self = this;
       window.onhashchange = function(e) {
-        return self._handle(e.newURL);
+        var error;
+        try {
+          return self._handle(e.newURL);
+        } catch (_error) {
+          error = _error;
+          return console.error(error.message);
+        }
       };
       window.onload = function() {
-        return self._handle(window.location);
+        var error;
+        try {
+          return self._handle(window.location);
+        } catch (_error) {
+          error = _error;
+          return console.error(error.message);
+        }
       };
     }
 
@@ -43,8 +55,8 @@
       proxyAnchor.href = url;
       path = proxyAnchor.hash.replace('#!', '');
       route = this._match(path);
-      if (!route) {
-        alert('404');
+      if (!route.handler) {
+        throw new Error("ONOEZ!  Could not find a matching route for " + path);
       }
       params = {};
       routeParamValues = route.path.exec(path);

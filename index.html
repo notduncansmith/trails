@@ -18,11 +18,15 @@
 var router = new Trails;
 
 router.route('/', function (path) {
-  setText(path.full,'Hello World!');
+  setText(path.route,'Hello World!');
 });
 
 router.route('/say/:message', function (path) {
-  setText(path.full, path.params.message);
+  setText(path.route, path.params.message);
+});
+
+router.route('/:name/says/:message', function (path) {
+  setText(path.params.name + ' says,', path.params.message);
 });
 
 router.route('/trails/*', function (path) {
