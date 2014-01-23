@@ -1,38 +1,40 @@
 <html>
 <head>
-  <title>New Thing</title>
+  <title>Trails &mdash; Just routing.</title>
 </head>
 <body>
-<h1>Path</h1>
-<p></p>
+<h1 id="title">Trails</h1>
+<p id="body">Just routing.</p>
+
+<ul>
+  <li><a href="#!/">Home</a></li>
+  <li><a href="#!/say/hello">Say hello!</a></li>
+  <li><a href="#!/trails/Just routing.">Trails</a></li>
+</ul>
 
 
-<iframe src="" frameborder="0"></iframe>
-
-
-<script src="/jquery.js"></script>
-<script src="/app.js"></script>
+<script src="/trails.js"></script>
 <script>
-var router = new Trails
-  , $title = $('h1')
-  , $body = $('p');
+var router = new Trails;
 
 router.route('/', function (path) {
-  $title.text(path.full);
-  $body.text('Hello World!');
+  setText(path.full,'Hello World!');
 });
 
 router.route('/say/:message', function (path) {
-  $title.text(path.full);
-  $body.text(path.params.message);
+  setText(path.full, path.params.message);
 });
 
-router.route('/p/:productSlug', function (path) {
-  $title.text('Slug')
-  $body.text(path.params.productSlug);
+router.route('/trails/*', function (path) {
+  setText('Trails', path.params.splat)
 })
 
-
+function setText(titleText, bodyText) {
+  var title = document.getElementById('title')
+  var body = document.getElementById('body');
+  title.innerText = titleText;
+  body.innerText = bodyText;
+}
 
 </script>
 </body>
