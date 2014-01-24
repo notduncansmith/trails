@@ -57,5 +57,26 @@ router.route('/text/*', function (path) {
 **Protip: Use router.vomit() to see all your current routes**
 
 
+## Contributing
+
+Trails is written in CoffeeScript.  Building the minified version is easy, just run the compiled JS through Uglifier.
+
+Outstanding TODOs in order of priority:
+
+- Before/after hooks for routes
+
+- Global before/after hooks 
+
+- Grunt task for minifying
+
+- Landing page
+
+- Example page (that isn't terrible)
+
+
+Pull requests are welcome.
+
+
 Copyright Duncan Smith 2013
-License: MIT
+
+MIT License
