@@ -65,9 +65,9 @@ Outstanding TODOs in order of priority:
 
 - Before/after hooks for routes
 
-- Global before/after hooks 
+- beforeAll/afterAll hooks
 
-- Grunt task for minifying
+- Gruntfile/Gulpfile for compiling/minifying
 
 - Landing page
 
@@ -76,6 +76,7 @@ Outstanding TODOs in order of priority:
 
 Pull requests are welcome.
 
+---
 
 Copyright Duncan Smith 2013
 
