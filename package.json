@@ -1,0 +1,29 @@
+{
+  "name": "trails",
+  "version": "0.1.1",
+  "description": "Just routing",
+  "main": "trails.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/notduncansmith/trails.git"
+  },
+  "keywords": [
+    "routing",
+    "client"
+  ],
+  "author": "Duncan Smith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/notduncansmith/trails/issues"
+  },
+  "homepage": "https://github.com/notduncansmith/trails",
+  "devDependencies": {
+    "gulp-coffee": "~2.0.1",
+    "gulp": "~3.8.5",
+    "gulp-rename": "~1.2.0",
+    "gulp-uglify": "~0.3.1"
+  }
+}
