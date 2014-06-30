@@ -54,20 +54,29 @@ router.route('/text/*', function (path) {
 ```
 
 
-**Protip: Use router.vomit() to see all your current routes**
+**Protip: Use router.allRoutes() to see all your current routes**
+
+To run a function before any route handler is called, use before(): 
+
+```js
+router.before(function (path) {
+  console.log('I get the same arguments as a route handler!');
+});
+```
+You can also register functions to run after route handlers are called, using `after()`.  Trails supports multiple before/after handlers - they will be run in the order they were attached.
 
 
 ## Contributing
 
-Trails is written in CoffeeScript.  Building the minified version is easy, just run the compiled JS through Uglifier.
+Trails is written in CoffeeScript.  Building the minified version is easy, just run `gulp`.
 
 Outstanding TODOs in order of priority:
 
 - Before/after hooks for routes
 
-- beforeAll/afterAll hooks
+- ~~beforeAll/afterAll hooks~~
 
-- Gruntfile/Gulpfile for compiling/minifying
+- ~~Gulpfile for compiling/minifying~~
 
 - Landing page
 
