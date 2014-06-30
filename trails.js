@@ -1,5 +1,15 @@
 window.Trails = (function() {
-  function Trails() {
+  Trails.prototype.options = {
+    exceptionOnNotFound: true,
+    redirectEmptyToRoot: true,
+    onLoad: true
+  };
+
+  function Trails(options) {
+    var o;
+    for (o in options) {
+      this.options[o] = options[o];
+    }
     window.onhashchange = (function(_this) {
       return function(e) {
         var error;
@@ -11,17 +21,19 @@ window.Trails = (function() {
         }
       };
     })(this);
-    window.onload = (function(_this) {
-      return function() {
-        var error;
-        try {
-          return _this._handle(window.location);
-        } catch (_error) {
-          error = _error;
-          return console.error(error.message);
-        }
-      };
-    })(this);
+    if (this.options.onLoad) {
+      window.onload = (function(_this) {
+        return function() {
+          var error;
+          try {
+            return _this._handle(window.location);
+          } catch (_error) {
+            error = _error;
+            return console.error(error.message);
+          }
+        };
+      })(this);
+    }
   }
 
   Trails.prototype.routes = [];
@@ -89,11 +101,19 @@ window.Trails = (function() {
     proxyAnchor.href = url;
     path = proxyAnchor.hash.replace('#!', '');
     if (path.length === 0) {
-      return false;
+      if (this.options.redirectEmptyToRoot) {
+        window.location.hash = '#!';
+      } else {
+        return false;
+      }
     }
     route = this._match(path);
     if (!route.handler) {
-      throw new Error("ONOEZ!  Could not find a matching route for " + path);
+      if (this.options.exceptionOnNotFound) {
+        throw new Error("ONOEZ!  Could not find a matching route for " + path);
+      } else {
+        return false;
+      }
     }
     params = {};
     routeParamValues = route.path.exec(path);

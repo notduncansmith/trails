@@ -1,16 +1,25 @@
 class window.Trails
-  constructor: ->
+  options:
+    exceptionOnNotFound: true
+    redirectEmptyToRoot: true
+    onLoad: true
+
+  constructor: (options) ->
+    for o of options
+      @options[o] = options[o]
+
     window.onhashchange = (e) =>
       try
         @_handle e.newURL
       catch error
         console.error error.message
-      
-    window.onload = =>
-      try
-        @_handle window.location
-      catch error
-        console.error error.message
+    
+    if @options.onLoad
+      window.onload = =>
+        try
+          @_handle window.location
+        catch error
+          console.error error.message
       
   routes: []
   beforeAllHandlers: []
@@ -57,12 +66,18 @@ class window.Trails
     path = proxyAnchor.hash.replace '#!', ''
     
     if path.length is 0
-      return false
+      if @options.redirectEmptyToRoot
+        window.location.hash = '#!'
+      else
+        return false
 
-    route = this._match path
+    route = @_match path
     
     unless route.handler
-      throw new Error "ONOEZ!  Could not find a matching route for #{path}"
+      if @options.exceptionOnNotFound
+        throw new Error "ONOEZ!  Could not find a matching route for #{path}"
+      else
+        return false
 
     params = {}
     routeParamValues = route.path.exec(path)
