@@ -1,19 +1,20 @@
 class window.Trails
   constructor: ->
-    self = this
-    window.onhashchange = (e) -> 
+    window.onhashchange = (e) =>
       try
-        self._handle e.newURL
+        @_handle e.newURL
       catch error
         console.error error.message
       
-    window.onload = -> 
+    window.onload = =>
       try
-        self._handle window.location
+        @_handle window.location
       catch error
         console.error error.message
       
   routes: []
+  beforeAllHandlers: []
+  afterAllHandlers: []
 
   route: (path, handler) ->
     originalPath = path
@@ -31,17 +32,35 @@ class window.Trails
       handler: handler
       paramNames: paramNames
         
-    this.routes.push(newRoute)
+    @routes.push(newRoute)
+ 
+  before: (func) ->
+    @beforeAllHandlers.push func
 
-  vomit: ->
+  after: (func) ->
+    @afterAllHandlers.push func
+
+  beforeAll: ->
+    for h in @beforeAllHandlers
+      h()
+
+  afterAll: ->
+    for h in @afterAllHandlers
+      h()
+
+  allRoutes: ->
     this.routes
 
   _handle: (url) ->
     proxyAnchor = document.createElement 'a'
     proxyAnchor.href = url
     path = proxyAnchor.hash.replace '#!', ''
+    
+    if path.length is 0
+      return false
 
     route = this._match path
+    
     unless route.handler
       throw new Error "ONOEZ!  Could not find a matching route for #{path}"
 
@@ -53,7 +72,7 @@ class window.Trails
       routeParamValues.map(decodeURIComponent).forEach (val, indx) ->
         if route.paramNames and route.paramNames.length > indx
           params[route.paramNames[indx]] = val
-        else if val 
+        else if val
           params.splat = params.splat || []
           params.splat.push val
     
@@ -61,15 +80,21 @@ class window.Trails
       route: route.originalPath
       computed: path
       params: params
-    
-    route.handler(args)
+
+    if @beforeAllHandlers.length > 0
+      @beforeAll args
+
+    route.handler args
+
+    if @afterAllHandlers.length > 0
+      @afterAll args
   
   _match: (path) ->
 
     route = {}
 
     for r in this.routes
-      if path.match r.path || decodeURIComponent(path).match r.path 
+      if path.match r.path || decodeURIComponent(path).match r.path
         route = r
 
     route

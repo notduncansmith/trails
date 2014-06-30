@@ -17,6 +17,14 @@
 <script>
 var router = new Trails;
 
+router.before(function () {
+  console.log('I run before!');
+});
+
+router.after(function () {
+  console.log('I run after!')
+});
+
 router.route('/', function (path) {
   setText(path.route,'Hello World!');
 });
