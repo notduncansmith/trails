@@ -7,8 +7,10 @@ window.Trails = (function() {
 
   function Trails(options) {
     var o;
-    for (o in options) {
-      this.options[o] = options[o];
+    if (options != null) {
+      for (o in this.options) {
+        this.options[o] = options[o];
+      }
     }
     window.onhashchange = (function(_this) {
       return function(e) {
@@ -102,7 +104,7 @@ window.Trails = (function() {
     path = proxyAnchor.hash.replace('#!', '');
     if (path.length === 0) {
       if (this.options.redirectEmptyToRoot) {
-        window.location.hash = '#!';
+        path = '/';
       } else {
         return false;
       }

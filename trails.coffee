@@ -5,8 +5,9 @@ class window.Trails
     onLoad: true
 
   constructor: (options) ->
-    for o of options
-      @options[o] = options[o]
+    if options?
+      for o of @options
+        @options[o] = options[o]
 
     window.onhashchange = (e) =>
       try
@@ -67,7 +68,7 @@ class window.Trails
     
     if path.length is 0
       if @options.redirectEmptyToRoot
-        window.location.hash = '#!'
+        path = '/'
       else
         return false
 
