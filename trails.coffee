@@ -8,10 +8,10 @@ class window.Trails
     if options?
       for o of @options
         @options[o] = options[o]
-
-    window.onhashchange = (e) =>
+    
+    handler = (e) =>
       try
-        @_handle e.newURL
+        @_handle e.currentTarget.location.href
       catch error
         console.error error.message
     
@@ -21,6 +21,13 @@ class window.Trails
           @_handle window.location
         catch error
           console.error error.message
+
+    if window.addEventListener
+      window.addEventListener 'hashchange', handler, false
+    else if window.attachEvent
+      window.attachEvent 'onhashchange', handler
+    else
+      console.error 'This browser is not supported by Trails.'
       
   routes: []
   beforeAllHandlers: []

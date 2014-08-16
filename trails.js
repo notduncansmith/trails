@@ -6,17 +6,17 @@ window.Trails = (function() {
   };
 
   function Trails(options) {
-    var o;
+    var handler, o;
     if (options != null) {
       for (o in this.options) {
         this.options[o] = options[o];
       }
     }
-    window.onhashchange = (function(_this) {
+    handler = (function(_this) {
       return function(e) {
         var error;
         try {
-          return _this._handle(e.newURL);
+          return _this._handle(e.currentTarget.location.href);
         } catch (_error) {
           error = _error;
           return console.error(error.message);
@@ -35,6 +35,13 @@ window.Trails = (function() {
           }
         };
       })(this);
+    }
+    if (window.addEventListener) {
+      window.addEventListener('hashchange', handler, false);
+    } else if (window.attachEvent) {
+      window.attachEvent('onhashchange', handler);
+    } else {
+      console.error('This browser is not supported by Trails.');
     }
   }
 
