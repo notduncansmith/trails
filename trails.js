@@ -105,10 +105,16 @@ window.Trails = (function() {
   };
 
   Trails.prototype._handle = function(url) {
-    var args, params, path, proxyAnchor, route, routeParamValues;
+    var args, frags, hasSearch, pair, param, params, path, proxyAnchor, route, routeParamValues, search, _i, _len;
     proxyAnchor = document.createElement('a');
     proxyAnchor.href = url;
     path = proxyAnchor.hash.replace('#!', '');
+    hasSearch = path.indexOf('?') > -1;
+    if (hasSearch) {
+      search = path.substring(path.indexOf('?'));
+      frags = search.slice(1).split('&');
+      path = path.replace(search, '');
+    }
     if (path.length === 0) {
       if (this.options.redirectEmptyToRoot) {
         path = '/';
@@ -136,6 +142,13 @@ window.Trails = (function() {
           return params.splat.push(val);
         }
       });
+    }
+    if (hasSearch) {
+      for (_i = 0, _len = frags.length; _i < _len; _i++) {
+        param = frags[_i];
+        pair = param.split('=');
+        params[pair[0]] = pair[1] || "";
+      }
     }
     args = {
       route: route.originalPath,
