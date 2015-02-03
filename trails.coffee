@@ -72,7 +72,13 @@ class window.Trails
     proxyAnchor = document.createElement 'a'
     proxyAnchor.href = url
     path = proxyAnchor.hash.replace '#!', ''
+    hasSearch = path.indexOf('?') > -1
+    if (hasSearch)
+      search = path.substring(path.indexOf('?'))
+      frags = search.slice(1).split '&'
+      path = path.replace(search, '')
     
+
     if path.length is 0
       if @options.redirectEmptyToRoot
         path = '/'
@@ -98,6 +104,11 @@ class window.Trails
         else if val
           params.splat = params.splat || []
           params.splat.push val
+
+    if (hasSearch)
+      for param in frags
+        pair = param.split('=')
+        params[pair[0]] = pair[1] || ""
     
     args =
       route: route.originalPath
