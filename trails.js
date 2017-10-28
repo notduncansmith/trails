@@ -52,7 +52,10 @@ window.Trails = (function() {
   Trails.prototype.afterAllHandlers = [];
 
   Trails.prototype.route = function(path, handler) {
-    var args, newRoute, originalPath, paramNames;
+    var args, newRoute, originalPath, paramNames, _ref;
+    path = (_ref = path.indexOf('#') === 0) != null ? _ref : {
+      path: '#' + path
+    };
     originalPath = path;
     args = Array.prototype.slice.call(arguments);
     path = args.shift();
@@ -98,6 +101,10 @@ window.Trails = (function() {
       _results.push(h());
     }
     return _results;
+  };
+
+  Trails.prototype.go = function(route) {
+    return window.location.hash = route;
   };
 
   Trails.prototype.allRoutes = function() {
