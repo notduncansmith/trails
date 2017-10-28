@@ -65,6 +65,9 @@ class window.Trails
     for h in @afterAllHandlers
       h()
 
+  go: (route)->
+    window.location.hash = route;
+
   allRoutes: ->
     this.routes
 
