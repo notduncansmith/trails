@@ -34,7 +34,7 @@ class window.Trails
   afterAllHandlers: []
 
   route: (path, handler) ->
-    path = path.indexOf('#') == 0 ? path : '#' + path; # Ensure hash prefix
+    path = if (path.indexOf('#') == 0) then path else '#' + path; # Ensure hash prefix
     originalPath = path
     args = Array.prototype.slice.call(arguments)
   

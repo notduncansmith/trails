@@ -52,10 +52,8 @@ window.Trails = (function() {
   Trails.prototype.afterAllHandlers = [];
 
   Trails.prototype.route = function(path, handler) {
-    var args, newRoute, originalPath, paramNames, _ref;
-    path = (_ref = path.indexOf('#') === 0) != null ? _ref : {
-      path: '#' + path
-    };
+    var args, newRoute, originalPath, paramNames;
+    path = path.indexOf('#') === 0 ? path : '#' + path;
     originalPath = path;
     args = Array.prototype.slice.call(arguments);
     path = args.shift();
