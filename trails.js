@@ -53,6 +53,7 @@ window.Trails = (function() {
 
   Trails.prototype.route = function(path, handler) {
     var args, newRoute, originalPath, paramNames;
+    path = path.indexOf('#') === 0 ? path : '#' + path;
     originalPath = path;
     args = Array.prototype.slice.call(arguments);
     path = args.shift();
@@ -98,6 +99,10 @@ window.Trails = (function() {
       _results.push(h());
     }
     return _results;
+  };
+
+  Trails.prototype.go = function(route) {
+    return window.location.hash = route;
   };
 
   Trails.prototype.allRoutes = function() {

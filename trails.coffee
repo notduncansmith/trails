@@ -34,6 +34,7 @@ class window.Trails
   afterAllHandlers: []
 
   route: (path, handler) ->
+    path = if (path.indexOf('#') == 0) then path else '#' + path; # Ensure hash prefix
     originalPath = path
     args = Array.prototype.slice.call(arguments)
   
@@ -64,6 +65,9 @@ class window.Trails
   afterAll: ->
     for h in @afterAllHandlers
       h()
+
+  go: (route)->
+    window.location.hash = route;
 
   allRoutes: ->
     this.routes
